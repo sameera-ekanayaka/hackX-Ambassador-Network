@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Where university students turn bold ideas into real ventures. Backed by the nation. Built by students. Eleven years running.",
 };
 
+import SmoothScroll from "@/components/SmoothScroll";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.variable} font-sans antialiased bg-brand-black text-white`}>
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
