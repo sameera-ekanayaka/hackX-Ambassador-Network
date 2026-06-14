@@ -1,26 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-brand-black: #010814;
+  --color-brand-dark-blue: #041A3A;
+  --color-brand-navy: #0A3878;
+  --color-brand-royal: #1A6FD4;
+  --color-brand-sky: #5BB8FF;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #010814;
+  --foreground: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-outfit), sans-serif;
+  --font-mono: monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #010814;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =============================================
+   KEYFRAME ANIMATIONS
+   ============================================= */
+
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(91, 184, 255, 0.25),
+      0 0 60px rgba(26, 111, 212, 0.15),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(91, 184, 255, 0.5),
+      0 0 120px rgba(26, 111, 212, 0.3),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+@keyframes border-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes particle-drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-80px) translateX(20px); opacity: 0; }
+}
+
+@keyframes text-reveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0% 0 0); opacity: 1; }
+}
+
+/* =============================================
+   GLASS UTILITIES
+   ============================================= */
+
+.glass-card {
+  background: rgba(4, 26, 58, 0.45);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid rgba(91, 184, 255, 0.12);
+  border-radius: 24px;
+}
+
+/* PRIMARY BUTTON: Royal-to-Sky gradient with animated glow */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 40px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 60%, #1A6FD4 100%);
+  background-size: 200% 200%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  animation: glow-pulse 3s infinite ease-in-out;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-15deg);
+  animation: shimmer 3.5s infinite;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* SECONDARY BUTTON: Pure glass with subtle sky border */
+.btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 40px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.9);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(91, 184, 255, 0.25);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(135deg, rgba(91,184,255,0.12) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(91, 184, 255, 0.55);
+  background: rgba(91, 184, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(91, 184, 255, 0.15);
+  color: #fff;
+}
+
+.btn-secondary:hover::after {
+  opacity: 1;
+}
+
+/* Scrolling indicator dot animation */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(8px); opacity: 0.3; }
+}
+
+.scroll-dot {
+  animation: scroll-bounce 1.8s infinite ease-in-out;
+}
+
+/* Stats Card Glassmorphism and Hover Effects */
+.stat-card {
+  background: rgba(10, 56, 120, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(91, 184, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.20),
+    0 0 15px rgba(91, 184, 255, 0.04);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(91, 184, 255, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(91, 184, 255, 0.3);
+  background: rgba(10, 56, 120, 0.15);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.25),
+    0 0 25px rgba(91, 184, 255, 0.18);
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-number {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 30%, #5BB8FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  transition: all 0.4s ease;
+  display: inline-block;
+}
+
+.stat-card:hover .stat-number {
+  background: linear-gradient(135deg, #5BB8FF 30%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Footer circle spin — CSS animation is GPU-composited, no JS overhead */
+@keyframes footer-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.footer-circle-spin {
+  animation: footer-spin 80s linear infinite;
+  will-change: transform;
+}
+
+/* Liquid glass social icon circles */
+.social-glass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 20px rgba(0,0,0,0.3);
+  color: rgba(255,255,255,0.5);
+  transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.social-glass:hover {
+  background: rgba(26, 111, 212, 0.25);
+  border-color: rgba(91, 184, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 20px rgba(26,111,212,0.4), 0 4px 20px rgba(0,0,0,0.3);
+  color: #fff;
+}
+
+/* AI Glow Spill Mask for animated border cards */
+.ai-glow-spill-mask {
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 50%,
+    black 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 50%,
+    black 100%
+  );
 }
