@@ -57,24 +57,11 @@
   font-style: normal;
   font-display: swap;
 }
+/* All "bold" requests (700–900) map to Bold — slightly heavier headings */
 @font-face {
   font-family: 'TT Hoves Pro Expanded';
   src: url('/fonts/TT Hoves Pro Trial Expanded Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'TT Hoves Pro Expanded';
-  src: url('/fonts/TT Hoves Pro Trial Expanded ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'TT Hoves Pro Expanded';
-  src: url('/fonts/TT Hoves Pro Trial Expanded Black.ttf') format('truetype');
-  font-weight: 900;
+  font-weight: 700 900;
   font-style: normal;
   font-display: swap;
 }
@@ -121,6 +108,12 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── All headings use the Expanded display face ── */
+  h1, h2, h3, h4 {
+    font-family: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
+    font-weight: 700; /* Bold */
   }
 }
 
