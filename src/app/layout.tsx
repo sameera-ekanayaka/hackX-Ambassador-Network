@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({ 
-  subsets: ["latin"],
-  variable: "--font-outfit",
-});
 
 export const metadata: Metadata = {
   title: "hackX 11.0 — Sri Lanka's Premier National Startup Challenge",
@@ -21,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} font-sans antialiased bg-brand-black text-white`}>
+      <body className="antialiased bg-brand-black text-white">
         <SmoothScroll>
           {children}
         </SmoothScroll>

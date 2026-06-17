@@ -4,7 +4,7 @@
 
 ## **BRAND COLORS**
 - Deep Navy/Black: #010814
-- Dark Blue: #041A3A
+- Dark Blue: #041a3a
 - Navy Blue: #0A3878
 - Royal Blue: #1A6FD4
 - Sky Blue: #5BB8FF

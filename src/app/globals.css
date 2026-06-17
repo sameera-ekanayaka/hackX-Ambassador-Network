@@ -1,4 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+/* ── TT Hoves Pro — Body (Normal width) ── */
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro';
+  src: url('/fonts/TT Hoves Pro Trial Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── TT Hoves Pro Expanded — Display / Titles ── */
+@font-face {
+  font-family: 'TT Hoves Pro Expanded';
+  src: url('/fonts/TT Hoves Pro Trial Expanded Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro Expanded';
+  src: url('/fonts/TT Hoves Pro Trial Expanded Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro Expanded';
+  src: url('/fonts/TT Hoves Pro Trial Expanded Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro Expanded';
+  src: url('/fonts/TT Hoves Pro Trial Expanded ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Hoves Pro Expanded';
+  src: url('/fonts/TT Hoves Pro Trial Expanded Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +87,8 @@
   --color-brand-navy: #0A3878;
   --color-brand-royal: #1A6FD4;
   --color-brand-sky: #5BB8FF;
+  --font-body: 'TT Hoves Pro', system-ui, sans-serif;
+  --font-display: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
 }
 
 :root {
@@ -17,7 +99,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-outfit), sans-serif;
+  --font-sans: var(--font-body);
   --font-mono: monospace;
 }
 
@@ -35,9 +117,10 @@
   body {
     background: #010814;
     color: #ffffff;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'TT Hoves Pro', system-ui, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -230,7 +313,7 @@
 }
 
 .stat-number {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
   font-weight: 800;
   font-size: clamp(2rem, 3vw, 2.75rem);
   line-height: 1;

@@ -90,7 +90,7 @@ export default function Hero() {
         y: titleY, opacity: titleOp,
       }}>
         <h1 style={{
-          fontFamily: "'Outfit', sans-serif",
+          fontFamily: "'TT Hoves Pro Expanded', 'TT Hoves Pro', sans-serif",
           fontWeight: 800,
           textAlign: "center",
           lineHeight: 1.07,
@@ -183,7 +183,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'TT Hoves Pro', sans-serif",
             fontSize: "clamp(0.88rem, 1.5vw, 1.1rem)",
             fontWeight: 300,
             color: "rgba(255,255,255,0.62)",
@@ -226,7 +226,7 @@ export default function Hero() {
           }}
         >
           <span style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'TT Hoves Pro', sans-serif",
             fontSize: "0.6rem", letterSpacing: "0.24em",
             color: "rgba(255,255,255,0.2)", textTransform: "uppercase",
           }}>Scroll to explore</span>
