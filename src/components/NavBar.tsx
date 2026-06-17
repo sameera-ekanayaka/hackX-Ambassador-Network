@@ -7,13 +7,53 @@ import Image from "next/image";
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  const navLinks = [
+    { label: "About", href: "#about" },
+    { label: "Rewards", href: "#rewards" },
+    { label: "Journey", href: "#journey" },
+    { label: "FAQ", href: "#chatbot" },
+    { label: "Contact", href: "#contact" },
+    { label: "Apply", href: "#apply-form" }
+  ];
 
   useEffect(() => {
+    const sections = ["about", "rewards", "journey", "chatbot", "contact", "apply-form"];
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+
+      let currentSection = "";
+      
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 160 && rect.bottom > 160) {
+            currentSection = sectionId;
+            break;
+          }
+        }
+      }
+
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (isAtBottom && sections.length > 0) {
+        currentSection = sections[sections.length - 1];
+      }
+
+      setActiveSection(currentSection);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   return (
@@ -56,32 +96,42 @@ export default function NavBar() {
           </Link>
 
           {/* Desktop Links */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {["Timeline", "Ambassadors", "Memories", "FAQ"].map((item) => (
-              <Link
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
-                className="text-sm font-medium text-white/65 hover:text-white transition-colors duration-200 tracking-wide"
-              >
-                {item}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/[0.06] rounded-full p-1 relative backdrop-blur-md">
+            {navLinks.map((item) => {
+              const isActive = item.href === `#${activeSection}`;
+
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`relative px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full transition-colors duration-300 ${
+                    isActive
+                      ? "text-white"
+                      : "text-white/60 hover:text-white/90"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeNavTab"
+                      className="absolute inset-0 bg-white/[0.08] border border-white/[0.12] rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),_0_8px_16px_rgba(0,0,0,0.2)]"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      style={{ originY: "0px" }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* CTA Buttons */}
           <div className="flex items-center gap-3">
             <button
-              className="hidden md:flex items-center justify-center px-5 py-2 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all duration-300"
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.10)",
-                backdropFilter: "blur(8px)",
+              onClick={() => {
+                const el = document.getElementById("apply-form");
+                el?.scrollIntoView({ behavior: "smooth" });
               }}
-            >
-              Contact
-            </button>
-            <button
-              className="flex items-center justify-center px-5 py-2 rounded-full text-sm font-bold text-white transition-all duration-300"
+              className="flex items-center justify-center px-5 py-2 rounded-full text-sm font-bold text-white transition-all duration-300 cursor-pointer"
               style={{
                 background: "linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 100%)",
                 boxShadow: "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
@@ -89,7 +139,7 @@ export default function NavBar() {
               onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 32px rgba(91,184,255,0.5), inset 0 1px 0 rgba(255,255,255,0.2)")}
               onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)")}
             >
-              Register Now
+              Apply Now
             </button>
           </div>
         </div>

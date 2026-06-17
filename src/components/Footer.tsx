@@ -119,8 +119,8 @@ export default function Footer() {
 
           {/* Right */}
           <div className="flex flex-col items-end gap-4">
-            <p className="text-white/55 text-sm font-light max-w-[280px] leading-relaxed text-right">
-              Organized by the Dept. of Industrial Management, University of Kelaniya — under the Patronage of the Ministry of Science &amp; Technology and NSF Sri Lanka.
+            <p className="text-white/55 text-sm font-light max-w-[320px] leading-relaxed text-right">
+              Organized by the Department of Industrial Management, University of Kelaniya — in collaboration with the Ministry of Science &amp; Technology and NSF Sri Lanka.
             </p>
             {/* Organizers logo strip */}
             <div
