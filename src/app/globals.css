@@ -1,3 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Dashboard title custom font */
+.dashboard-title-font {
+  font-family: 'GeistPixel-line', var(--font-geist-mono), monospace !important;
+}
+
+
+/* =========================================================
+   ── HACKX AMBASSADOR NETWORK PREMIUM TYPEFACES & STYLES ──
+   ========================================================= */
+
 /* ── TT Hoves Pro — Body (Normal width) ── */
 @font-face {
   font-family: 'TT Hoves Pro';
@@ -57,7 +95,6 @@
   font-style: normal;
   font-display: swap;
 }
-/* All "bold" requests (700–900) map to Bold — slightly heavier headings */
 @font-face {
   font-family: 'TT Hoves Pro Expanded';
   src: url('/fonts/TT Hoves Pro Trial Expanded Bold.ttf') format('truetype');
@@ -66,61 +103,30 @@
   font-display: swap;
 }
 
-@import "tailwindcss";
-
 @theme {
   --color-brand-black: #010814;
   --color-brand-dark-blue: #041A3A;
   --color-brand-navy: #0A3878;
   --color-brand-royal: #1A6FD4;
   --color-brand-sky: #5BB8FF;
-  --font-body: 'TT Hoves Pro', system-ui, sans-serif;
-  --font-display: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
 }
 
-:root {
-  --background: #010814;
-  --foreground: #ffffff;
+/* Scoped HackX theme class wrapper to prevent side-effects on dashboard/admin panels */
+.hackx-theme {
+  font-family: 'TT Hoves Pro', system-ui, sans-serif !important;
+  background-color: #010814;
+  color: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-mono: monospace;
+.hackx-theme h1, 
+.hackx-theme h2, 
+.hackx-theme h3, 
+.hackx-theme h4 {
+  font-family: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif !important;
+  font-weight: 700;
 }
 
-@layer base {
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    background: #010814;
-    color: #ffffff;
-    font-family: 'TT Hoves Pro', system-ui, sans-serif;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* ── All headings use the Expanded display face ── */
-  h1, h2, h3, h4 {
-    font-family: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
-    font-weight: 700; /* Bold */
-  }
-}
-
-/* =============================================
-   KEYFRAME ANIMATIONS
-   ============================================= */
-
+/* Keyframe animations */
 @keyframes float-up {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -164,11 +170,8 @@
   to   { clip-path: inset(0 0% 0 0); opacity: 1; }
 }
 
-/* =============================================
-   GLASS UTILITIES
-   ============================================= */
-
-.glass-card {
+/* Glassmorphism card utilities */
+.hackx-theme .glass-card {
   background: rgba(4, 26, 58, 0.45);
   backdrop-filter: blur(20px) saturate(1.8);
   -webkit-backdrop-filter: blur(20px) saturate(1.8);
@@ -176,8 +179,8 @@
   border-radius: 24px;
 }
 
-/* PRIMARY BUTTON: Royal-to-Sky gradient with animated glow */
-.btn-primary {
+/* Primary buttons with animated glow */
+.hackx-theme .btn-primary {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -198,7 +201,7 @@
   animation: glow-pulse 3s infinite ease-in-out;
 }
 
-.btn-primary::before {
+.hackx-theme .btn-primary::before {
   content: '';
   position: absolute;
   top: 0; left: -80%;
@@ -208,12 +211,12 @@
   animation: shimmer 3.5s infinite;
 }
 
-.btn-primary:hover {
+.hackx-theme .btn-primary:hover {
   transform: translateY(-2px) scale(1.03);
 }
 
-/* SECONDARY BUTTON: Pure glass with subtle sky border */
-.btn-secondary {
+/* Secondary glass button */
+.hackx-theme .btn-secondary {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -234,7 +237,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-secondary::after {
+.hackx-theme .btn-secondary::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -244,7 +247,7 @@
   transition: opacity 0.3s ease;
 }
 
-.btn-secondary:hover {
+.hackx-theme .btn-secondary:hover {
   border-color: rgba(91, 184, 255, 0.55);
   background: rgba(91, 184, 255, 0.08);
   transform: translateY(-2px);
@@ -252,22 +255,12 @@
   color: #fff;
 }
 
-.btn-secondary:hover::after {
+.hackx-theme .btn-secondary:hover::after {
   opacity: 1;
 }
 
-/* Scrolling indicator dot animation */
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(8px); opacity: 0.3; }
-}
-
-.scroll-dot {
-  animation: scroll-bounce 1.8s infinite ease-in-out;
-}
-
-/* Stats Card Glassmorphism and Hover Effects */
-.stat-card {
+/* Stats Card Hover & Glassmorphism */
+.hackx-theme .stat-card {
   background: rgba(10, 56, 120, 0.08);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -282,7 +275,7 @@
   overflow: hidden;
 }
 
-.stat-card::before {
+.hackx-theme .stat-card::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -292,7 +285,7 @@
   pointer-events: none;
 }
 
-.stat-card:hover {
+.hackx-theme .stat-card:hover {
   transform: translateY(-5px);
   border-color: rgba(91, 184, 255, 0.3);
   background: rgba(10, 56, 120, 0.15);
@@ -301,11 +294,11 @@
     0 0 25px rgba(91, 184, 255, 0.18);
 }
 
-.stat-card:hover::before {
+.hackx-theme .stat-card:hover::before {
   opacity: 1;
 }
 
-.stat-number {
+.hackx-theme .stat-number {
   font-family: 'TT Hoves Pro Expanded', 'TT Hoves Pro', system-ui, sans-serif;
   font-weight: 800;
   font-size: clamp(2rem, 3vw, 2.75rem);
@@ -319,25 +312,25 @@
   display: inline-block;
 }
 
-.stat-card:hover .stat-number {
+.hackx-theme .stat-card:hover .stat-number {
   background: linear-gradient(135deg, #5BB8FF 30%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Footer circle spin — CSS animation is GPU-composited, no JS overhead */
-@keyframes footer-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-.footer-circle-spin {
+/* Footer elements */
+.hackx-theme .footer-circle-spin {
   animation: footer-spin 80s linear infinite;
   will-change: transform;
 }
 
-/* Liquid glass social icon circles */
-.social-glass {
+@keyframes footer-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.hackx-theme .social-glass {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,23 +345,48 @@
   color: rgba(255,255,255,0.5);
   transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
-.social-glass:hover {
+
+.hackx-theme .social-glass:hover {
   background: rgba(26, 111, 212, 0.25);
   border-color: rgba(91, 184, 255, 0.5);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 20px rgba(26,111,212,0.4), 0 4px 20px rgba(0,0,0,0.3);
   color: #fff;
 }
 
-/* AI Glow Spill Mask for animated border cards */
-.ai-glow-spill-mask {
-  mask-image: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    transparent 50%,
-    black 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    transparent 50%,
-    black 100%
-  );
+/* =========================================================
+   ── ADMIN PANEL VALUE & INPUT VISIBILITY FIX ──
+   ========================================================= */
+
+/* Fix default text color inheritance in Admin Panel main container to prevent white-on-white text in system dark mode */
+main.bg-white,
+.admin-content-area,
+.bg-white,
+.bg-gray-50,
+.bg-gray-100 {
+  color: #111827; /* Force dark gray/black text on light backgrounds */
+}
+
+/* Force visible typed value and border color on all admin inputs, textareas, and selects on light backgrounds */
+.bg-white input,
+.bg-white textarea,
+.bg-white select,
+.bg-gray-50 input,
+.bg-gray-50 textarea,
+.bg-gray-50 select,
+.bg-gray-100 input,
+.bg-gray-100 textarea,
+.bg-gray-100 select {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important; /* border-gray-300 */
+}
+
+/* Ensure helper/placeholder texts are legible and have proper color contrast */
+.bg-white input::placeholder,
+.bg-white textarea::placeholder,
+.bg-gray-50 input::placeholder,
+.bg-gray-50 textarea::placeholder,
+.bg-gray-100 input::placeholder,
+.bg-gray-100 textarea::placeholder {
+  color: #9ca3af !important; /* text-gray-400 */
 }

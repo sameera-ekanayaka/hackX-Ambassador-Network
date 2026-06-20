@@ -126,6 +126,12 @@ export default function NavBar() {
 
           {/* CTA Buttons */}
           <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="hidden sm:inline-flex items-center justify-center px-5 py-2 rounded-full text-sm font-semibold text-white/80 hover:text-white bg-white/[0.04] border border-white/10 hover:border-white/25 hover:bg-white/[0.08] transition-all duration-300 cursor-pointer"
+            >
+              Portal Login
+            </Link>
             <button
               onClick={() => {
                 const el = document.getElementById("apply-form");

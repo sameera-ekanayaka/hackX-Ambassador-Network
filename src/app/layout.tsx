@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "hackX 11.0 — Sri Lanka's Premier National Startup Challenge",
-  description: "Where university students turn bold ideas into real ventures. Backed by the nation. Built by students. Eleven years running.",
-};
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-import SmoothScroll from "@/components/SmoothScroll";
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "hackX Ambassador Portal",
+  description: "Official student ambassador portal for hackX.",
+};
 
 export default function RootLayout({
   children,
@@ -14,11 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased bg-brand-black text-white">
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        {children}
+        <SpeedInsights />
       </body>
     </html>
   );
