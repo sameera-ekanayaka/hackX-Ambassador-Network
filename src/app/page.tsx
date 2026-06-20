@@ -29,6 +29,7 @@ import MobileNotice from "@/components/MobileNotice";
 import Footer from "@/components/Footer";
 import { PixelCanvas } from "@/components/ui/pixel-canvas";
 
+
 // Animation presets
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 24, filter: "blur(4px)" },
@@ -63,13 +64,21 @@ const BentoCard = ({
 
 // Mock Leaderboard Data
 const mockAmbassadors = [
-  { rank: 1, name: "Tharindu Dhanushka", university: "University of Kelaniya", points: 1240, referrals: 24, badge: "Elite" },
-  { rank: 2, name: "Malith Fernando", university: "University of Moratuwa", points: 980, referrals: 18, badge: "Gold" },
-  { rank: 3, name: "Sithumini Silva", university: "University of Colombo", points: 850, referrals: 15, badge: "Gold" },
-  { rank: 4, name: "Kasun Jayawardena", university: "University of Sri Jayewardenepura", points: 720, referrals: 12, badge: "Silver" },
-  { rank: 5, name: "Aanya Perera", university: "University of Kelaniya", points: 690, referrals: 11, badge: "Silver" },
-  { rank: 6, name: "Devinda Perera", university: "SLIIT", points: 540, referrals: 9, badge: "Bronze" },
-  { rank: 7, name: "Sanduni Cooray", university: "Sabaragamuwa University", points: 480, referrals: 8, badge: "Bronze" },
+  { rank: 1, name: "Sameera Ekanayaka", university: "University of Kelaniya", points: 1240, badge: "Elite" },
+  { rank: 2, name: "Malith Fernando", university: "University of Moratuwa", points: 980, badge: "Gold" },
+  { rank: 3, name: "Sithumini Silva", university: "University of Colombo", points: 850, badge: "Gold" },
+  { rank: 4, name: "Kasun Jayawardena", university: "University of Sri Jayewardenepura", points: 720, badge: "Silver" },
+  { rank: 5, name: "Aanya Perera", university: "University of Kelaniya", points: 690, badge: "Silver" },
+  { rank: 6, name: "Devinda Perera", university: "SLIIT", points: 540, badge: "Bronze" },
+  { rank: 7, name: "Sanduni Cooray", university: "Sabaragamuwa University", points: 480, badge: "Bronze" },
+  { rank: 8, name: "Nimasha Wickramasinghe", university: "University of Ruhuna", points: 420, badge: "Bronze" },
+  { rank: 9, name: "Ravindu Premarathna", university: "University of Peradeniya", points: 390, badge: "Bronze" },
+  { rank: 10, name: "Ishani Bandara", university: "University of Moratuwa", points: 345, badge: "Bronze" },
+  { rank: 11, name: "Dineth Karunarathne", university: "NSBM Green University", points: 310, badge: "Bronze" },
+  { rank: 12, name: "Piyumi Samarakoon", university: "University of Kelaniya", points: 280, badge: "Bronze" },
+  { rank: 13, name: "Chamath Alwis", university: "University of Sri Jayewardenepura", points: 240, badge: "Bronze" },
+  { rank: 14, name: "Hasini Gamage", university: "Sabaragamuwa University", points: 195, badge: "Bronze" },
+  { rank: 15, name: "Lakshan Madushanka", university: "University of Colombo", points: 160, badge: "Bronze" },
 ];
 
 // Chatbot Q&A Data
@@ -374,9 +383,7 @@ export default function Home() {
                 <p className="text-white/55 font-light leading-relaxed text-sm">
                   Compete with campus ambassadors across Sri Lanka and unlock exclusive rewards, including access to hackX workshops, VIP entry to the Grand Finals, branded merchandise, and on-stage recognition.
                 </p>
-                <div className="mt-8 flex items-center gap-2 text-xs font-bold text-[#5BB8FF]/60 uppercase tracking-wider">
-                  <span>Leaderboard coming soon</span>
-                </div>
+
               </BentoCard>
 
               {/* Card 3: Get Certified */}
@@ -391,6 +398,187 @@ export default function Home() {
               </BentoCard>
 
             </div>
+          </div>
+        </section>
+
+        {/* ── LIVE LEADERBOARD SECTION ── */}
+        <section id="leaderboard" className="relative py-32 bg-[#010814] border-t border-white/5 overflow-hidden">
+          {/* Ambient glows */}
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#1A6FD4]/5 blur-[160px] rounded-full pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#5BB8FF]/4 blur-[140px] rounded-full pointer-events-none" />
+
+          <div className="max-w-5xl mx-auto px-6 relative z-10">
+
+            {/* Header */}
+            <div className="text-center flex flex-col items-center mb-16">
+              <motion.span
+                {...fade(0)}
+                className="text-xs font-bold tracking-[0.2em] uppercase text-[#5BB8FF] mb-4"
+              >
+                Live Rankings
+              </motion.span>
+              <motion.h2
+                {...fade(0.05)}
+                className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4"
+              >
+                Ambassador Leaderboard
+              </motion.h2>
+              <motion.p
+                {...fade(0.1)}
+                className="text-white/50 font-light text-sm md:text-base max-w-lg leading-relaxed"
+              >
+                Rankings update in real-time as teams progress through hackX 11.0. Top ambassadors earn exclusive rewards.
+              </motion.p>
+            </div>
+
+            {/* Top 3 Podium */}
+            <motion.div {...fade(0.12)} className="flex items-end justify-center gap-4 mb-12">
+              {/* 2nd Place */}
+              <div className="flex flex-col items-center gap-3 flex-1 max-w-[180px]">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#94a3b8]/20 to-[#64748b]/10 border border-[#94a3b8]/30 flex items-center justify-center shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                    <span className="text-2xl font-black text-[#94a3b8]">2</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-gradient-to-br from-[#94a3b8] to-[#64748b] flex items-center justify-center">
+                    <Trophy className="w-2.5 h-2.5 text-white" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="text-white/90 text-xs font-bold leading-tight">{mockAmbassadors[1].name.split(" ")[0]}</p>
+                  <p className="text-[#94a3b8] text-[10px] font-black mt-0.5">{mockAmbassadors[1].points} pts</p>
+                </div>
+                <div className="w-full h-16 rounded-t-xl bg-gradient-to-t from-[#94a3b8]/10 to-[#94a3b8]/5 border border-[#94a3b8]/15 border-b-0" />
+              </div>
+
+              {/* 1st Place */}
+              <div className="flex flex-col items-center gap-3 flex-1 max-w-[200px]">
+                <div className="relative">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FFD700]/25 to-[#FFA500]/10 border border-[#FFD700]/40 flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.2)] animate-[glow-pulse_3s_infinite]">
+                    <span className="text-3xl font-black text-[#FFD700]">1</span>
+                  </div>
+                  <div className="absolute -top-3 -right-2 w-6 h-6 rounded-full bg-gradient-to-br from-[#FFD700] to-[#FFA500] flex items-center justify-center shadow-[0_0_10px_rgba(255,215,0,0.4)]">
+                    <Trophy className="w-3 h-3 text-white" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="text-white font-bold text-sm leading-tight">{mockAmbassadors[0].name.split(" ")[0]}</p>
+                  <p className="text-[#FFD700] text-xs font-black mt-0.5">{mockAmbassadors[0].points} pts</p>
+                </div>
+                <div className="w-full h-24 rounded-t-xl bg-gradient-to-t from-[#FFD700]/10 to-[#FFD700]/5 border border-[#FFD700]/20 border-b-0" />
+              </div>
+
+              {/* 3rd Place */}
+              <div className="flex flex-col items-center gap-3 flex-1 max-w-[180px]">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#cd7f32]/20 to-[#a0522d]/10 border border-[#cd7f32]/30 flex items-center justify-center shadow-[0_0_20px_rgba(205,127,50,0.15)]">
+                    <span className="text-2xl font-black text-[#cd7f32]">3</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-gradient-to-br from-[#cd7f32] to-[#a0522d] flex items-center justify-center">
+                    <Trophy className="w-2.5 h-2.5 text-white" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="text-white/90 text-xs font-bold leading-tight">{mockAmbassadors[2].name.split(" ")[0]}</p>
+                  <p className="text-[#cd7f32] text-[10px] font-black mt-0.5">{mockAmbassadors[2].points} pts</p>
+                </div>
+                <div className="w-full h-10 rounded-t-xl bg-gradient-to-t from-[#cd7f32]/10 to-[#cd7f32]/5 border border-[#cd7f32]/15 border-b-0" />
+              </div>
+            </motion.div>
+
+            {/* Full Table */}
+            <motion.div
+              {...fade(0.18)}
+              className="rounded-3xl overflow-hidden border border-white/6 bg-[#041A3A]/15 backdrop-blur-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
+            >
+              {/* Table Header */}
+              <div className="grid grid-cols-[56px_1fr_1fr_72px] items-center px-6 py-4 border-b border-white/8 bg-white/[0.02]">
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">#</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Ambassador</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">University</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35 text-right">Points</span>
+              </div>
+
+              {/* Table Rows */}
+              {mockAmbassadors.map((ambassador, idx) => {
+                const isTop3 = idx < 3;
+                const isTop5 = idx < 5;
+                const rankColors: Record<number, { border: string; bg: string; rankText: string; glow: string }> = {
+                  0: { border: "border-[#FFD700]/25", bg: "bg-[#FFD700]/[0.04]", rankText: "text-[#FFD700]", glow: "shadow-[inset_0_0_30px_rgba(255,215,0,0.04)]" },
+                  1: { border: "border-[#94a3b8]/15", bg: "bg-[#94a3b8]/[0.03]", rankText: "text-[#94a3b8]", glow: "shadow-[inset_0_0_30px_rgba(148,163,184,0.03)]" },
+                  2: { border: "border-[#cd7f32]/15", bg: "bg-[#cd7f32]/[0.03]", rankText: "text-[#cd7f32]", glow: "shadow-[inset_0_0_30px_rgba(205,127,50,0.03)]" },
+                  3: { border: "border-[#5BB8FF]/10", bg: "bg-[#5BB8FF]/[0.025]", rankText: "text-[#5BB8FF]", glow: "" },
+                  4: { border: "border-[#5BB8FF]/8", bg: "bg-[#5BB8FF]/[0.015]", rankText: "text-[#5BB8FF]/80", glow: "" },
+                };
+                const style = rankColors[idx] ?? { border: "border-transparent", bg: "", rankText: "text-white/30", glow: "" };
+
+                return (
+                  <motion.div
+                    key={ambassador.rank}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: idx * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                    className={`grid grid-cols-[56px_1fr_1fr_72px] items-center px-6 py-4 border-b border-white/[0.04] last:border-0 transition-all duration-300 hover:bg-white/[0.025] group ${
+                      isTop5 ? `${style.bg} border-l-2 ${style.border} ${style.glow}` : "border-l-2 border-transparent"
+                    }`}
+                  >
+                    {/* Rank */}
+                    <div className="flex items-center">
+                      {isTop3 ? (
+                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm ${
+                          idx === 0 ? "bg-[#FFD700]/15 text-[#FFD700] shadow-[0_0_12px_rgba(255,215,0,0.2)]" :
+                          idx === 1 ? "bg-[#94a3b8]/15 text-[#94a3b8]" :
+                          "bg-[#cd7f32]/15 text-[#cd7f32]"
+                        }`}>
+                          {ambassador.rank}
+                        </div>
+                      ) : (
+                        <span className={`text-sm font-bold ${style.rankText} w-8 text-center`}>
+                          {ambassador.rank}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Name */}
+                    <div className="flex items-center">
+                      <span className={`text-sm font-bold leading-tight transition-colors duration-300 ${
+                        isTop3 ? "text-white" : isTop5 ? "text-white/90" : "text-white/70 group-hover:text-white/90"
+                      }`}>
+                        {ambassador.name}
+                      </span>
+                    </div>
+
+                    {/* University */}
+                    <div>
+                      <span className={`text-xs leading-tight ${
+                        isTop5 ? "text-white/55" : "text-white/35 group-hover:text-white/50"
+                      } transition-colors duration-300`}>
+                        {ambassador.university}
+                      </span>
+                    </div>
+
+                    {/* Points */}
+                    <div className="text-right">
+                      <span className={`inline-block px-3 py-1.5 rounded-full text-xs font-black border transition-all duration-300 ${
+                        idx === 0 ? "bg-[#FFD700]/10 text-[#FFD700] border-[#FFD700]/25 shadow-[0_0_10px_rgba(255,215,0,0.15)]" :
+                        idx === 1 ? "bg-[#94a3b8]/10 text-[#94a3b8] border-[#94a3b8]/20" :
+                        idx === 2 ? "bg-[#cd7f32]/10 text-[#cd7f32] border-[#cd7f32]/20" :
+                        isTop5 ? "bg-[#5BB8FF]/10 text-[#5BB8FF] border-[#5BB8FF]/20" :
+                        "bg-white/[0.04] text-white/50 border-white/8 group-hover:bg-[#5BB8FF]/8 group-hover:text-[#5BB8FF]/70 group-hover:border-[#5BB8FF]/15"
+                      }`}>
+                        {ambassador.points.toLocaleString()}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            {/* Footer note */}
+            <motion.div {...fade(0.25)} className="mt-6 flex items-center justify-center gap-2 text-xs text-white/30">
+              <TrendingUp className="w-3.5 h-3.5 text-[#5BB8FF]/50" />
+              <span>Rankings are updated in real-time · Showing top 15 ambassadors · hackX 11.0</span>
+            </motion.div>
           </div>
         </section>
 
