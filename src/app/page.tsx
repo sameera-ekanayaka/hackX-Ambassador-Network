@@ -28,6 +28,8 @@ import NavBar from "@/components/NavBar";
 import MobileNotice from "@/components/MobileNotice";
 import Footer from "@/components/Footer";
 import { PixelCanvas } from "@/components/ui/pixel-canvas";
+import { SpotlightBorder } from "@/components/ui/spotlight-border";
+import { HeroSection } from "@/components/ui/hero-section-4";
 
 
 // Animation presets
@@ -38,8 +40,8 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] as const },
 });
 
-// Reusable Stat/Bento Card with PixelCanvas
-const BentoCard = ({
+// Reusable Stat/Bento Card with PixelCanvas + spinning border beam
+function BentoCard({
   children,
   className = "",
   delay = 0,
@@ -47,20 +49,45 @@ const BentoCard = ({
   children: React.ReactNode;
   className?: string;
   delay?: number;
-}) => (
-  <motion.div
-    {...fade(delay)}
-    className={`relative overflow-hidden rounded-3xl bg-[#041A3A]/20 backdrop-blur-[40px] border border-white/5 shadow-sm transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10 group ${className}`}
-  >
-    <PixelCanvas
-      gap={10}
-      speed={20}
-      colors={["#1A6FD4", "#5BB8FF", "#0A3878"]}
-    />
-    <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/[0.03] group-hover:to-transparent transition-colors duration-500 pointer-events-none" />
-    <div className="relative z-10 w-full h-full p-8 md:p-10">{children}</div>
-  </motion.div>
-);
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      {...fade(delay)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={`relative overflow-hidden rounded-3xl bg-[#041A3A]/20 backdrop-blur-[40px] border border-white/5 shadow-sm transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10 group ${className}`}
+    >
+      <PixelCanvas gap={10} speed={20} colors={["#1A6FD4", "#5BB8FF", "#0A3878"]} />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/[0.03] group-hover:to-transparent transition-colors duration-500 pointer-events-none" />
+
+      {/* Border beam — conic-gradient from-angle animated via @property for full 360° travel */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "24px",
+          pointerEvents: "none",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 700ms ease",
+          padding: "1.5px",
+          background:
+            "conic-gradient(from var(--border-angle, 0deg) at 50% 50%, transparent 0%, transparent 68%, rgba(26,111,212,0.3) 76%, rgba(91,184,255,0.8) 86%, rgba(210,240,255,1) 91%, rgba(91,184,255,0.8) 96%, transparent 100%)",
+          animation: hovered ? "border-beam-rotate 2.4s linear infinite" : "none",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+          zIndex: 20,
+        }}
+      />
+
+      <div className="relative z-10 w-full h-full p-8 md:p-10">{children}</div>
+    </motion.div>
+  );
+}
+
 
 // Mock Leaderboard Data
 const mockAmbassadors = [
@@ -193,73 +220,39 @@ export default function Home() {
       <MobileNotice />
       
       <main style={{ background: "#010814", width: "100%", overflowX: "clip" }}>
-        
         {/* ── HERO SECTION ── */}
-        <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 overflow-hidden">
-          {/* Animated Background Blobs */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <motion.div
-              animate={{ x: [0, 30, -30, 0], y: [0, -40, 40, 0], scale: [1, 1.05, 0.95, 1] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-              className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#1A6FD4] opacity-[0.08] blur-[140px] rounded-full"
-            />
-            <motion.div
-              animate={{ x: [0, -40, 40, 0], y: [0, 40, -40, 0], scale: [1, 0.9, 1.1, 1] }}
-              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-              className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#5BB8FF] opacity-[0.06] blur-[160px] rounded-full"
-            />
-          </div>
-
-          <div className="max-w-7xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-            
-            {/* Headline */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl md:text-6xl lg:text-8xl font-black text-white tracking-tight leading-[1.05] mb-6 max-w-4xl"
-              style={{ fontFamily: "'TT Hoves Pro Expanded', 'TT Hoves Pro', sans-serif" }}
-            >
+        <HeroSection
+          imageUrl="/Hero - BG Img.png"
+          foregroundUrl="/Hero - Foreground.png"
+          title={
+            <>
               Bring hackX <br />
-              <span className="bg-gradient-to-r from-[#5BB8FF] via-white to-[#5BB8FF] bg-size-200 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#5BB8FF] via-white to-[#5BB8FF] bg-clip-text text-transparent">
                 to Your Campus
               </span>
-            </motion.h1>
-
-            {/* Subtext */}
-            <motion.p 
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg md:text-xl text-white/60 font-light leading-relaxed max-w-2xl mb-12"
-            >
-              Become a Campus Ambassador for hackX 11.0 and represent Sri Lanka’s premier inter-university startup challenge at your university.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div 
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-4 flex-wrap justify-center"
-            >
-              <button 
-                onClick={() => {
-                  const el = document.getElementById("apply-form");
-                  el?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="btn-primary"
-              >
-                Apply as an Ambassador
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </motion.div>
-          </div>
-        </section>
+            </>
+          }
+          subtitle="Become a Campus Ambassador for hackX 11.0 and represent Sri Lanka's premier inter-university startup challenge at your university."
+          primaryButtonText={
+            <span className="flex items-center gap-2">
+              Apply as an Ambassador
+              <ArrowRight className="w-5 h-5" />
+            </span>
+          }
+          onPrimaryClick={() => {
+            const el = document.getElementById("apply-form");
+            el?.scrollIntoView({ behavior: "smooth" });
+          }}
+          secondaryButtonText="Learn More"
+          onSecondaryClick={() => {
+            const el = document.getElementById("about");
+            el?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
 
         {/* ── ABOUT THE MOVEMENT ── */}
-        <section id="about" className="relative py-28 border-t border-white/5 bg-gradient-to-b from-[#010814] to-[#020e21]/40">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <section id="about" className="relative py-16 sm:py-28 border-t border-white/5 bg-gradient-to-b from-[#010814] to-[#020e21]/40">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
               
               {/* Left Column: Image with glow */}
@@ -334,8 +327,8 @@ export default function Home() {
         </section>
 
         {/* ── BENTO REWARDS GRID ── */}
-        <section id="rewards" className="relative py-32 bg-[#010814] overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <section id="rewards" className="relative py-16 sm:py-32 bg-[#010814] overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             
             {/* Header */}
             <div className="text-center flex flex-col items-center mb-20">
@@ -402,12 +395,12 @@ export default function Home() {
         </section>
 
         {/* ── LIVE LEADERBOARD SECTION ── */}
-        <section id="leaderboard" className="relative py-32 bg-[#010814] border-t border-white/5 overflow-hidden">
+        <section id="leaderboard" className="relative py-16 sm:py-32 bg-[#010814] border-t border-white/5 overflow-hidden">
           {/* Ambient glows */}
           <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#1A6FD4]/5 blur-[160px] rounded-full pointer-events-none" />
           <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#5BB8FF]/4 blur-[140px] rounded-full pointer-events-none" />
 
-          <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
 
             {/* Header */}
             <div className="text-center flex flex-col items-center mb-16">
@@ -491,10 +484,10 @@ export default function Home() {
               className="rounded-3xl overflow-hidden border border-white/6 bg-[#041A3A]/15 backdrop-blur-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
             >
               {/* Table Header */}
-              <div className="grid grid-cols-[56px_1fr_1fr_72px] items-center px-6 py-4 border-b border-white/8 bg-white/[0.02]">
+              <div className="grid grid-cols-[44px_1fr_72px] sm:grid-cols-[56px_1fr_1fr_72px] items-center px-4 sm:px-6 py-4 border-b border-white/8 bg-white/[0.02]">
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">#</span>
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">Ambassador</span>
-                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">University</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35 hidden sm:block">University</span>
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35 text-right">Points</span>
               </div>
 
@@ -518,7 +511,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: idx * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                    className={`grid grid-cols-[56px_1fr_1fr_72px] items-center px-6 py-4 border-b border-white/[0.04] last:border-0 transition-all duration-300 hover:bg-white/[0.025] group ${
+                    className={`grid grid-cols-[44px_1fr_72px] sm:grid-cols-[56px_1fr_1fr_72px] items-center px-4 sm:px-6 py-4 border-b border-white/[0.04] last:border-0 transition-all duration-300 hover:bg-white/[0.025] group ${
                       isTop5 ? `${style.bg} border-l-2 ${style.border} ${style.glow}` : "border-l-2 border-transparent"
                     }`}
                   >
@@ -548,8 +541,8 @@ export default function Home() {
                       </span>
                     </div>
 
-                    {/* University */}
-                    <div>
+                    {/* University — hidden on mobile */}
+                    <div className="hidden sm:block">
                       <span className={`text-xs leading-tight ${
                         isTop5 ? "text-white/55" : "text-white/35 group-hover:text-white/50"
                       } transition-colors duration-300`}>
@@ -583,8 +576,8 @@ export default function Home() {
         </section>
 
         {/* ── THE JOURNEY / HOW IT WORKS ── */}
-        <section id="journey" className="relative py-28 bg-[#010814]">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <section id="journey" className="relative py-16 sm:py-28 bg-[#010814]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             
             {/* Header */}
             <div className="text-center flex flex-col items-center mb-20">
@@ -613,17 +606,18 @@ export default function Home() {
                 { step: "03", title: "Refer & Support", desc: "Promote hackX within your campus network and support teams as they develop and refine their startup ideas." },
                 { step: "04", title: "Climb & Win", desc: "Track your impact as your referred teams progress, earn points, and unlock exclusive rewards." },
               ].map((item, idx) => (
-                <motion.div 
-                  key={idx} 
-                  {...fade(idx * 0.1 + 0.15)}
-                  className="flex flex-col relative z-10 bg-[#041A3A]/10 border border-white/5 hover:border-white/10 transition-colors p-6 rounded-2xl group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#1A6FD4] to-[#5BB8FF] flex items-center justify-center text-white font-bold text-xs mb-6 shadow-[0_0_12px_rgba(91,184,255,0.2)]">
-                    {item.step}
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#5BB8FF] transition-colors">{item.title}</h3>
-                  <p className="text-white/45 font-light leading-relaxed text-sm">{item.desc}</p>
-                </motion.div>
+                <SpotlightBorder key={idx} borderRadius="16px" className="flex flex-col relative z-10">
+                  <motion.div
+                    {...fade(idx * 0.1 + 0.15)}
+                    className="flex flex-col h-full bg-[#041A3A]/10 border border-white/5 hover:border-white/10 transition-colors p-6 rounded-2xl group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#1A6FD4] to-[#5BB8FF] flex items-center justify-center text-white font-bold text-xs mb-6 shadow-[0_0_12px_rgba(91,184,255,0.2)]">
+                      {item.step}
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#5BB8FF] transition-colors">{item.title}</h3>
+                    <p className="text-white/45 font-light leading-relaxed text-sm">{item.desc}</p>
+                  </motion.div>
+                </SpotlightBorder>
               ))}
             </div>
 
@@ -631,11 +625,11 @@ export default function Home() {
         </section>
 
         {/* ── INTERACTIVE FAQ CHATBOT ── */}
-        <section id="chatbot" className="relative py-28 bg-[#010814] border-t border-white/5">
+        <section id="chatbot" className="relative py-16 sm:py-28 bg-[#010814] border-t border-white/5">
           {/* Ambient light glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#1A6FD4]/5 blur-[120px] rounded-full pointer-events-none" style={{ zIndex: 0 }} />
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             {/* Section Header */}
             <div className="text-center flex flex-col items-center mb-16">
               <motion.span 
@@ -690,7 +684,7 @@ export default function Home() {
               {/* Right Column: Chat Window */}
               <motion.div 
                 {...fade(0.2)}
-                className="lg:col-span-7 flex flex-col rounded-[2rem] border border-white/5 bg-[#041A3A]/10 backdrop-blur-[32px] overflow-hidden h-[500px] shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
+                className="lg:col-span-7 flex flex-col rounded-[2rem] border border-white/5 bg-[#041A3A]/10 backdrop-blur-[32px] overflow-hidden h-[420px] sm:h-[500px] shadow-[0_12px_40px_rgba(0,0,0,0.3)]"
               >
                 {/* Chat Header */}
                 <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01] flex items-center shrink-0">
@@ -713,11 +707,22 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Messages Box */}
+                {/* Messages Box — smart wheel handler: scrolls chat internally,
+                    propagates to page when chat hits top/bottom boundary */}
                 <div 
-                  data-lenis-prevent
                   className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col" 
                   id="chat-messages"
+                  style={{ overscrollBehavior: "contain" }}
+                  onWheel={(e) => {
+                    const el = e.currentTarget;
+                    const { scrollTop, scrollHeight, clientHeight } = el;
+                    const isScrollable = scrollHeight > clientHeight;
+                    if (!isScrollable) return;
+                    const atTop = scrollTop <= 0 && e.deltaY < 0;
+                    const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
+                    if (atTop || atBottom) return; // release to page
+                    e.stopPropagation();
+                  }}
                 >
                   {messages.map((msg, idx) => {
                     const isBot = msg.sender === "bot";
@@ -797,11 +802,11 @@ export default function Home() {
         </section>
 
         {/* ── CONTACT US SECTION ── */}
-        <section id="contact" className="relative py-28 bg-[#010814] border-t border-white/5">
+        <section id="contact" className="relative py-16 sm:py-28 bg-[#010814] border-t border-white/5">
           {/* Ambient light glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#1A6FD4]/5 blur-[120px] rounded-full pointer-events-none" style={{ zIndex: 0 }} />
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             {/* Section Header */}
             <div className="text-center flex flex-col items-center mb-16">
               <motion.span 
@@ -827,17 +832,12 @@ export default function Home() {
             {/* Coordinator Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8">
               {/* Card 1: Charith Fonseka */}
-              <motion.div
-                {...fade(0.15)}
-                className="relative overflow-hidden rounded-[2rem] bg-[#041A3A]/25 backdrop-blur-[24px] border border-white/5 shadow-md p-8 flex flex-col items-center text-center group transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10"
-              >
+              <SpotlightBorder borderRadius="32px">
+                <motion.div
+                  {...fade(0.15)}
+                  className="relative overflow-hidden rounded-[2rem] bg-[#041A3A]/25 backdrop-blur-[24px] border border-white/5 shadow-md p-8 flex flex-col items-center text-center group transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10"
+                >
                 <div className="relative w-32 h-32 rounded-3xl overflow-hidden bg-[#5BB8FF]/10 border border-[#5BB8FF]/20 mb-6 shrink-0 transition-transform duration-500 group-hover:scale-105">
-                  <Image
-                    src="/coordinator-charith-profile.jpg"
-                    alt="Charith Fonseka"
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
                 </div>
                 <h3 className="text-2xl font-extrabold text-white mb-1">Charith Fonseka</h3>
                 <p className="text-[#5BB8FF] font-semibold text-xs tracking-wider uppercase mb-6">Ambassador Coordinator</p>
@@ -858,13 +858,15 @@ export default function Home() {
                     <span>+94 77 123 4567</span>
                   </Link>
                 </div>
-              </motion.div>
+                </motion.div>
+              </SpotlightBorder>
 
               {/* Card 2: Manumi Senavirathna */}
-              <motion.div
-                {...fade(0.25)}
-                className="relative overflow-hidden rounded-[2rem] bg-[#041A3A]/25 backdrop-blur-[24px] border border-white/5 shadow-md p-8 flex flex-col items-center text-center group transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10"
-              >
+              <SpotlightBorder borderRadius="32px">
+                <motion.div
+                  {...fade(0.25)}
+                  className="relative overflow-hidden rounded-[2rem] bg-[#041A3A]/25 backdrop-blur-[24px] border border-white/5 shadow-md p-8 flex flex-col items-center text-center group transition-all duration-500 hover:bg-[#041A3A]/35 hover:border-white/10"
+                >
                 <div className="relative w-32 h-32 rounded-3xl overflow-hidden bg-[#5BB8FF]/10 border border-[#5BB8FF]/20 mb-6 shrink-0 transition-transform duration-500 group-hover:scale-105">
                   <Image
                     src="/coordinator-manumi.png"
@@ -892,20 +894,21 @@ export default function Home() {
                     <span>+94 77 987 6543</span>
                   </Link>
                 </div>
-              </motion.div>
+                </motion.div>
+              </SpotlightBorder>
             </div>
           </div>
         </section>
 
         {/* ── REGISTRATION / CTA CARD ── */}
-        <section id="apply-form" className="relative py-32 bg-[#010814]">
-          <div className="max-w-4xl mx-auto px-6 relative z-10">
+        <section id="apply-form" className="relative py-16 sm:py-32 bg-[#010814]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
             <motion.div 
               {...fade(0)}
               className="text-center flex flex-col items-center"
             >
               <h2 
-                className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight"
+                className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-5 sm:mb-6 tracking-tight px-2"
                 style={{ fontFamily: "'TT Hoves Pro Expanded', 'TT Hoves Pro', sans-serif" }}
               >
                 Ready to Lead Your Campus?

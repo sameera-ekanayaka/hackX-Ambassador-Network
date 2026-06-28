@@ -1,17 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { X, Menu } from "lucide-react";
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [
     { label: "About", href: "#about" },
     { label: "Rewards", href: "#rewards" },
+    { label: "Leaderboard", href: "#leaderboard" },
     { label: "Journey", href: "#journey" },
     { label: "FAQ", href: "#chatbot" },
     { label: "Contact", href: "#contact" },
@@ -19,34 +22,32 @@ export default function NavBar() {
   ];
 
   useEffect(() => {
-    const sections = ["about", "rewards", "journey", "chatbot", "contact", "apply-form"];
+    const sectionIds = ["about", "rewards", "leaderboard", "journey", "chatbot", "contact", "apply-form"];
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      let currentSection = "";
-      
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
+      let bestSection = "";
+      let bestCoverage = 0;
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
         if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 160 && rect.bottom > 160) {
-            currentSection = sectionId;
-            break;
+          const { top, bottom } = el.getBoundingClientRect();
+          const visibleTop = Math.max(0, top);
+          const visibleBottom = Math.min(window.innerHeight, bottom);
+          const coverage = Math.max(0, visibleBottom - visibleTop);
+          if (coverage > bestCoverage) {
+            bestCoverage = coverage;
+            bestSection = id;
           }
         }
       }
 
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-      if (isAtBottom && sections.length > 0) {
-        currentSection = sections[sections.length - 1];
-      }
-
-      setActiveSection(currentSection);
+      setActiveSection(bestSection);
     };
 
     handleScroll();
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
 
@@ -56,94 +57,205 @@ export default function NavBar() {
     };
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    // Small delay to let drawer close before scrolling
+    setTimeout(() => {
+      const id = href.replace("#", "");
+      const el = document.getElementById(id);
+      el?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
+
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{ paddingTop: scrolled ? "12px" : "20px", paddingBottom: scrolled ? "12px" : "20px", transition: "padding 0.5s ease" }}
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Liquid Glass Panel */}
-        <div
-          className="flex items-center justify-between rounded-full px-6 py-3 transition-all duration-500"
-          style={{
-            background: scrolled
-              ? "rgba(1, 8, 20, 0.35)"
-              : "rgba(255, 255, 255, 0.04)",
-            backdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
-            WebkitBackdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
-            border: scrolled
-              ? "1px solid rgba(255,255,255,0.10)"
-              : "1px solid rgba(255,255,255,0.07)",
-            boxShadow: scrolled
-              ? "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 0.5px rgba(255,255,255,0.04)"
-              : "0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
-          }}
-        >
-          {/* Logo */}
-          <Link href="/" className="flex items-center group">
-            <div className="relative" style={{ width: "120px", height: "36px" }}>
-              <Image
-                src="/hackxlogo.webp"
-                alt="hackX Logo"
-                fill
-                style={{ objectFit: "contain", objectPosition: "left center" }}
-                priority
-              />
+    <>
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{ paddingTop: scrolled ? "12px" : "20px", paddingBottom: scrolled ? "12px" : "20px", transition: "padding 0.5s ease" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Liquid Glass Panel */}
+          <div
+            className="flex items-center justify-between rounded-full px-4 sm:px-6 py-3 transition-all duration-500"
+            style={{
+              background: scrolled
+                ? "rgba(1, 8, 20, 0.35)"
+                : "rgba(255, 255, 255, 0.04)",
+              backdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
+              WebkitBackdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
+              border: scrolled
+                ? "1px solid rgba(255,255,255,0.10)"
+                : "1px solid rgba(255,255,255,0.07)",
+              boxShadow: scrolled
+                ? "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 0.5px rgba(255,255,255,0.04)"
+                : "0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
+            }}
+          >
+            {/* Logo */}
+            <Link href="/" className="flex items-center group">
+              <div className="relative" style={{ width: "100px", height: "30px" }}>
+                <Image
+                  src="/hackxlogo.webp"
+                  alt="hackX Logo"
+                  fill
+                  style={{ objectFit: "contain", objectPosition: "left center" }}
+                  priority
+                />
+              </div>
+            </Link>
+
+            {/* Desktop Links */}
+            <nav className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/[0.06] rounded-full p-1 relative backdrop-blur-md">
+              {navLinks.map((item) => {
+                const isActive = item.href === `#${activeSection}`;
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`relative px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full transition-all duration-300 ${
+                      isActive
+                        ? "text-white bg-white/[0.09] border border-white/[0.14] shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),_0_4px_12px_rgba(0,0,0,0.2)]"
+                        : "text-white/60 hover:text-white/90 border border-transparent"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Right side: CTA + Hamburger */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* CTA Button */}
+              <button
+                onClick={() => {
+                  const el = document.getElementById("apply-form");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="flex items-center justify-center px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-white transition-all duration-300 cursor-pointer"
+                style={{
+                  background: "linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 100%)",
+                  boxShadow: "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 32px rgba(91,184,255,0.5), inset 0 1px 0 rgba(255,255,255,0.2)")}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)")}
+              >
+                Apply Now
+              </button>
+
+              {/* Hamburger — mobile only */}
+              <button
+                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.05] border border-white/[0.08] text-white/70 hover:text-white hover:bg-white/[0.10] transition-all duration-300"
+                onClick={() => setMobileOpen(true)}
+                aria-label="Open menu"
+              >
+                <Menu className="w-4 h-4" />
+              </button>
             </div>
-          </Link>
-
-          {/* Desktop Links */}
-          <nav className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/[0.06] rounded-full p-1 relative backdrop-blur-md">
-            {navLinks.map((item) => {
-              const isActive = item.href === `#${activeSection}`;
-
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`relative px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full transition-colors duration-300 ${
-                    isActive
-                      ? "text-white"
-                      : "text-white/60 hover:text-white/90"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNavTab"
-                      className="absolute inset-0 bg-white/[0.08] border border-white/[0.12] rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),_0_8px_16px_rgba(0,0,0,0.2)]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      style={{ originY: "0px" }}
-                    />
-                  )}
-                  <span className="relative z-10">{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                const el = document.getElementById("apply-form");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="flex items-center justify-center px-5 py-2 rounded-full text-sm font-bold text-white transition-all duration-300 cursor-pointer"
-              style={{
-                background: "linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 100%)",
-                boxShadow: "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 32px rgba(91,184,255,0.5), inset 0 1px 0 rgba(255,255,255,0.2)")}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)")}
-            >
-              Apply Now
-            </button>
           </div>
         </div>
-      </div>
-    </motion.header>
+      </motion.header>
+
+      {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+              onClick={() => setMobileOpen(false)}
+            />
+
+            {/* Drawer panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed top-0 right-0 bottom-0 z-[70] w-72 lg:hidden flex flex-col"
+              style={{
+                background: "rgba(1, 8, 20, 0.96)",
+                backdropFilter: "blur(32px)",
+                borderLeft: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/[0.06]">
+                <div className="relative" style={{ width: "90px", height: "26px" }}>
+                  <Image
+                    src="/hackxlogo.webp"
+                    alt="hackX Logo"
+                    fill
+                    style={{ objectFit: "contain", objectPosition: "left center" }}
+                  />
+                </div>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Nav Links */}
+              <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+                {navLinks.map((item, idx) => {
+                  const isActive = item.href === `#${activeSection}`;
+                  return (
+                    <motion.button
+                      key={item.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.05, duration: 0.3 }}
+                      onClick={() => handleNavClick(item.href)}
+                      className={`w-full text-left px-5 py-3.5 rounded-2xl text-sm font-semibold uppercase tracking-widest transition-all duration-300 ${
+                        isActive
+                          ? "text-white bg-[#1A6FD4]/20 border border-[#5BB8FF]/20"
+                          : "text-white/55 hover:text-white hover:bg-white/[0.04] border border-transparent"
+                      }`}
+                    >
+                      {item.label}
+                    </motion.button>
+                  );
+                })}
+              </nav>
+
+              {/* Drawer Footer CTA */}
+              <div className="px-6 pb-8 pt-4 border-t border-white/[0.06]">
+                <button
+                  onClick={() => handleNavClick("#apply-form")}
+                  className="w-full py-3.5 rounded-full text-sm font-bold text-white text-center"
+                  style={{
+                    background: "linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 100%)",
+                    boxShadow: "0 0 20px rgba(91,184,255,0.25)",
+                  }}
+                >
+                  Apply as Ambassador
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

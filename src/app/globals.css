@@ -164,6 +164,22 @@
   to   { clip-path: inset(0 0% 0 0); opacity: 1; }
 }
 
+@keyframes border-beam-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animatable angle for conic-gradient border beam */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-beam-rotate {
+  to { --border-angle: 360deg; }
+}
+
 /* =============================================
    GLASS UTILITIES
    ============================================= */
