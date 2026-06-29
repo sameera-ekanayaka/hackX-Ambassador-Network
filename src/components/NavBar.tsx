@@ -83,25 +83,22 @@ export default function NavBar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ paddingTop: scrolled ? "12px" : "20px", paddingBottom: scrolled ? "12px" : "20px", transition: "padding 0.5s ease" }}
+        className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-4 sm:px-6 pointer-events-none"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Liquid Glass Panel */}
           <div
-            className="flex items-center justify-between rounded-full px-4 sm:px-6 py-3 transition-all duration-500"
+            className="flex items-center justify-between rounded-full px-5 py-3 sm:py-3.5 transition-all duration-500"
             style={{
               background: scrolled
-                ? "rgba(1, 8, 20, 0.35)"
-                : "rgba(255, 255, 255, 0.04)",
-              backdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
-              WebkitBackdropFilter: "blur(28px) saturate(1.8) brightness(1.15)",
-              border: scrolled
-                ? "1px solid rgba(255,255,255,0.10)"
-                : "1px solid rgba(255,255,255,0.07)",
+                ? "rgba(1, 8, 20, 0.65)"
+                : "rgba(1, 8, 20, 0.45)",
+              backdropFilter: "blur(24px) saturate(1.8)",
+              WebkitBackdropFilter: "blur(24px) saturate(1.8)",
+              border: "1px solid rgba(91, 184, 255, 0.15)",
               boxShadow: scrolled
-                ? "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 0.5px rgba(255,255,255,0.04)"
-                : "0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
+                ? "0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)"
+                : "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)",
             }}
           >
             {/* Logo */}
@@ -140,13 +137,13 @@ export default function NavBar() {
 
             {/* Right side: CTA + Hamburger */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* CTA Button */}
+              {/* CTA Button — desktop/tablet only */}
               <button
                 onClick={() => {
                   const el = document.getElementById("apply-form");
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex items-center justify-center px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-white transition-all duration-300 cursor-pointer"
+                className="hidden md:flex items-center justify-center px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-white transition-all duration-300 cursor-pointer"
                 style={{
                   background: "linear-gradient(135deg, #1A6FD4 0%, #5BB8FF 100%)",
                   boxShadow: "0 0 20px rgba(91,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
@@ -159,11 +156,11 @@ export default function NavBar() {
 
               {/* Hamburger — mobile only */}
               <button
-                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.05] border border-white/[0.08] text-white/70 hover:text-white hover:bg-white/[0.10] transition-all duration-300"
+                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.08] text-white/80 hover:text-white hover:bg-white/[0.10] transition-all duration-300"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
               >
-                <Menu className="w-4 h-4" />
+                <Menu className="w-5 h-5" />
               </button>
             </div>
           </div>

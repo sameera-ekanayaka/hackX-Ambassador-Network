@@ -243,11 +243,6 @@ export default function Home() {
             const el = document.getElementById("apply-form");
             el?.scrollIntoView({ behavior: "smooth" });
           }}
-          secondaryButtonText="Learn More"
-          onSecondaryClick={() => {
-            const el = document.getElementById("about");
-            el?.scrollIntoView({ behavior: "smooth" });
-          }}
         />
 
         {/* ── ABOUT THE MOVEMENT ── */}
@@ -425,9 +420,15 @@ export default function Home() {
             </div>
 
             {/* Top 3 Podium */}
-            <motion.div {...fade(0.12)} className="flex items-end justify-center gap-4 mb-12">
+            <div className="flex items-end justify-center gap-4 mb-12">
               {/* 2nd Place */}
-              <div className="flex flex-col items-center gap-3 flex-1 max-w-[180px]">
+              <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: 0.4, type: "spring", bounce: 0.4 }}
+                className="flex flex-col items-center gap-3 flex-1 max-w-[180px]"
+              >
                 <div className="relative">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#94a3b8]/20 to-[#64748b]/10 border border-[#94a3b8]/30 flex items-center justify-center shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <span className="text-2xl font-black text-[#94a3b8]">2</span>
@@ -441,10 +442,16 @@ export default function Home() {
                   <p className="text-[#94a3b8] text-[10px] font-black mt-0.5">{mockAmbassadors[1].points} pts</p>
                 </div>
                 <div className="w-full h-16 rounded-t-xl bg-gradient-to-t from-[#94a3b8]/10 to-[#94a3b8]/5 border border-[#94a3b8]/15 border-b-0" />
-              </div>
+              </motion.div>
 
               {/* 1st Place */}
-              <div className="flex flex-col items-center gap-3 flex-1 max-w-[200px]">
+              <motion.div 
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: 0.1, type: "spring", bounce: 0.5 }}
+                className="flex flex-col items-center gap-3 flex-1 max-w-[200px]"
+              >
                 <div className="relative">
                   <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#FFD700]/25 to-[#FFA500]/10 border border-[#FFD700]/40 flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.2)] animate-[glow-pulse_3s_infinite]">
                     <span className="text-3xl font-black text-[#FFD700]">1</span>
@@ -458,10 +465,16 @@ export default function Home() {
                   <p className="text-[#FFD700] text-xs font-black mt-0.5">{mockAmbassadors[0].points} pts</p>
                 </div>
                 <div className="w-full h-24 rounded-t-xl bg-gradient-to-t from-[#FFD700]/10 to-[#FFD700]/5 border border-[#FFD700]/20 border-b-0" />
-              </div>
+              </motion.div>
 
               {/* 3rd Place */}
-              <div className="flex flex-col items-center gap-3 flex-1 max-w-[180px]">
+              <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: 0.7, type: "spring", bounce: 0.4 }}
+                className="flex flex-col items-center gap-3 flex-1 max-w-[180px]"
+              >
                 <div className="relative">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#cd7f32]/20 to-[#a0522d]/10 border border-[#cd7f32]/30 flex items-center justify-center shadow-[0_0_20px_rgba(205,127,50,0.15)]">
                     <span className="text-2xl font-black text-[#cd7f32]">3</span>
@@ -475,8 +488,8 @@ export default function Home() {
                   <p className="text-[#cd7f32] text-[10px] font-black mt-0.5">{mockAmbassadors[2].points} pts</p>
                 </div>
                 <div className="w-full h-10 rounded-t-xl bg-gradient-to-t from-[#cd7f32]/10 to-[#cd7f32]/5 border border-[#cd7f32]/15 border-b-0" />
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             {/* Full Table */}
             <motion.div

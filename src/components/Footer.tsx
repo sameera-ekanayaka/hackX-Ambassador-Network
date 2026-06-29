@@ -82,8 +82,8 @@ export default function Footer() {
 
       {/* ── LAYER 4: Center statue ── */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none md:opacity-100 opacity-40"
-        style={{ zIndex: 4, width: "clamp(340px, 90vw, 560px)", height: "clamp(420px, 108vw, 660px)" }}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none md:opacity-100 opacity-80 w-[clamp(380px,135vw,740px)] h-[clamp(480px,160vw,900px)] md:w-[clamp(340px,50vw,560px)] md:h-[clamp(420px,60vw,660px)]"
+        style={{ zIndex: 4 }}
       >
         <Image
           src="/footer-center.webp"
@@ -93,8 +93,8 @@ export default function Footer() {
         />
         {/* Bottom fade on statue itself */}
         <div
-          className="absolute inset-x-0 bottom-0 h-24"
-          style={{ background: "linear-gradient(to top, #01050A 30%, transparent)" }}
+          className="absolute inset-x-0 bottom-0 h-32"
+          style={{ background: "linear-gradient(to top, #01050A 10%, transparent)" }}
         />
       </div>
 
@@ -103,8 +103,8 @@ export default function Footer() {
         className="md:hidden absolute inset-x-0 bottom-0 pointer-events-none"
         style={{
           zIndex: 5,
-          height: "60%",
-          background: "linear-gradient(to top, #01050A 40%, rgba(1,5,10,0.75) 70%, transparent 100%)"
+          height: "70%",
+          background: "linear-gradient(to top, #01050A 20%, rgba(1,5,10,0.6) 60%, transparent 100%)"
         }}
       />
 
@@ -175,11 +175,11 @@ export default function Footer() {
 
       {/* ── MOBILE layout (< md) — centered stacked ── */}
       <div
-        className="md:hidden absolute inset-0 flex flex-col items-center justify-end pb-6 px-6"
+        className="md:hidden absolute inset-0 flex flex-col items-center justify-end pb-3 px-6"
         style={{ zIndex: 6 }}
       >
         {/* Logo — centered */}
-        <Link href="/" className="mb-4">
+        <Link href="/" className="mb-3">
           <div className="relative" style={{ width: "120px", height: "38px" }}>
             <Image
               src="/hackxlogo.webp"
@@ -191,17 +191,17 @@ export default function Footer() {
         </Link>
 
         {/* Description */}
-        <p className="text-white/55 text-sm font-light leading-relaxed text-center max-w-xs mb-5">
+        <p className="text-white/55 text-sm font-light leading-relaxed text-center max-w-xs mb-3">
           Sri Lanka&apos;s premier national startup challenge for undergraduates across all universities.
         </p>
 
         {/* Org info */}
-        <p className="text-white/50 text-xs font-light leading-relaxed text-center max-w-xs mb-5">
+        <p className="text-white/50 text-xs font-light leading-relaxed text-center max-w-xs mb-3">
           Organized by the Industrial Management Science Students&apos; Association, University of Kelaniya in collaboration with the Ministry of Science &amp; Technology and The National Science Foundation of Sri Lanka.
         </p>
 
         {/* Organizer logos — centered, full width */}
-        <div className="relative w-full mb-6" style={{ height: "140px" }}>
+        <div className="relative w-full mb-4" style={{ height: "140px" }}>
           <Image
             src="/allorganizerslogo.webp"
             alt="Organizers"
@@ -211,10 +211,10 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="w-full max-w-xs border-t border-white/10 mb-4" />
+        <div className="w-full max-w-xs border-t border-white/10 mb-3" />
 
         {/* Copyright */}
-        <p className="text-xs text-white/35 mb-4">&copy; {new Date().getFullYear()} hackX 11.0.</p>
+        <p className="text-xs text-white/35 mb-3">&copy; {new Date().getFullYear()} hackX 11.0.</p>
 
         {/* Social icons */}
         <div className="flex items-center gap-3">
